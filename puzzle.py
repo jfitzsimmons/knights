@@ -11,8 +11,29 @@ CKnave = Symbol("C is a Knave")
 
 # Puzzle 0
 # A says "I am both a knight and a knave."
+# testJPF
+#Knight = False
+#Knave = True
+
+"""
+Every sentence spoken by a knight is true, and every sentence spoken by a knave is false.
+
+go thru hints1!!
+https://cs50.harvard.edu/ai/2020/projects/1/knights/
+TESTJPF!!!
+
+implication(And(AKnave, And(AKnight, AKnave)), Not(AKnight))
+implication(And(AKnight, And(AKnight, AKnave))
+"""
+
 knowledge0 = And(
-    # TODO
+    Implication(And(And(AKnight, AKnave), AKnight), And(Not(AKnight), AKnave)),
+    Implication(AKnight, AKnave),
+    # abstract the rules TESTJPF
+    Implication(AKnight, Not(AKnave)),
+    Or(AKnight, AKnave),
+    Implication(AKnave, Not(AKnight)),
+    Not(And(AKnave, AKnight))
 )
 
 # Puzzle 1
