@@ -9,24 +9,60 @@ BKnave = Symbol("B is a Knave")
 CKnight = Symbol("C is a Knight")
 CKnave = Symbol("C is a Knave")
 
+ruleKnowledge = [
+    Or(AKnight, AKnave),
+    Not(And(AKnave, AKnight)),
+    Or(BKnight, BKnave),
+    Not(And(BKnave, BKnight)),
+    Or(CKnight, CKnave),
+    Not(And(CKnave, CKnight))
+]
+
 # Puzzle 0
 # A says "I am both a knight and a knave."
 knowledge0 = And(
-    # TODO
+    Implication(AKnight, And(AKnight, AKnave)),
+    Implication(AKnave, Not(And(AKnight, AKnave))),
+    *ruleKnowledge
 )
 
 # Puzzle 1
 # A says "We are both knaves."
 # B says nothing.
 knowledge1 = And(
-    # TODO
+    Implication(AKnight, And(BKnave, AKnave)),
+    Implication(
+        AKnave,
+        Or(
+            And(BKnight, AKnave),
+            And(BKnight, AKnight),
+            And(AKnight, AKnight),
+        ),
+    ),
+    *ruleKnowledge
 )
 
 # Puzzle 2
 # A says "We are the same kind."
 # B says "We are of different kinds."
 knowledge2 = And(
-    # TODO
+    Implication(AKnight, Or(And(BKnave, AKnave), And(BKnight, AKnight))),
+    Implication(
+        AKnave,
+        Or(
+            And(BKnight, AKnave),
+            And(AKnight, BKnave),
+        ),
+    ),
+    Implication(BKnave, Or(And(BKnave, AKnave), And(BKnight, AKnight))),
+    Implication(
+        BKnight,
+        Or(
+            And(BKnight, AKnave),
+            And(AKnight, BKnave),
+        ),
+    ),
+    *ruleKnowledge
 )
 
 # Puzzle 3
@@ -35,7 +71,45 @@ knowledge2 = And(
 # B says "C is a knave."
 # C says "A is a knight."
 knowledge3 = And(
-    # TODO
+    Implication(AKnight, And(AKnight, AKnave)),
+    Implication(AKnave, Not(And(AKnight, AKnave))),
+    Implication(BKnight,
+                And(
+                    Or(
+                        Implication(AKnight, AKnave),
+                        Implication(AKnave, AKnave),
+                    ),
+                    CKnave
+                )
+                ),
+    Implication(BKnave,
+                And(
+                    Or(
+                        Not(Implication(AKnight, AKnave)),
+                        Not(Implication(AKnave, AKnave)),
+                    ),
+                    CKnight
+                )
+                ),
+    Implication(CKnight, AKnight),
+    Implication(CKnave, AKnave),
+
+    Implication(
+        AKnave,
+        Or(
+            And(BKnight, AKnave),
+            And(AKnight, BKnave),
+        ),
+    ),
+    Implication(BKnave, Or(And(BKnave, AKnave), And(BKnight, AKnight))),
+    Implication(
+        BKnight,
+        Or(
+            And(BKnight, AKnave),
+            And(AKnight, BKnave),
+        ),
+    ),
+    *ruleKnowledge
 )
 
 
